@@ -12,7 +12,7 @@ library("RColorBrewer")
 library("wordcloud")
 
 #BODY
-text <- readLines("C:\\Users\\Tanachart\\Desktop\\AsianFacts\\Project\\asian_facts_comment.csv")
+text <- readLines("C:\\Users\\Tanachart\\Desktop\\dataset\\12_Cyprus.csv")
 
 # Load the data as a corpus
 docs <- Corpus(VectorSource(text))
@@ -22,6 +22,7 @@ inspect(docs)
 toSpace <- content_transformer(function (x , pattern ) gsub(pattern, " ", x))
 docs <- tm_map(docs, toSpace, "/")
 docs <- tm_map(docs, toSpace, "@")
+docs <- tm_map(docs, toSpace, "—")
 docs <- tm_map(docs, toSpace, "\\|")
 
 # Convert the text to lower case
@@ -32,7 +33,7 @@ docs <- tm_map(docs, removeNumbers)
 docs <- tm_map(docs, removeWords, stopwords("english"))
 # Remove your own stop word
 # specify your stopwords as a character vector
-docs <- tm_map(docs, removeWords, c("blabla1", "blabla2")) 
+docs <- tm_map(docs, removeWords, c("itself\xe2", "blabla2")) 
 # Remove punctuations
 docs <- tm_map(docs, removePunctuation)
 # Eliminate extra white spaces
@@ -50,7 +51,7 @@ head(d, 100)
 
 set.seed(1234)
 wordcloud(words = d$word, freq = d$freq, min.freq = 1,
-          max.words=200, random.order=FALSE, rot.per=0.35, 
+          max.words=70, random.order=FALSE, rot.per=0.35, 
           colors=brewer.pal(8, "Dark2"))
 
 
